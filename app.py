@@ -5,9 +5,13 @@ import json
 from datetime import datetime
 from functools import wraps
 from flask import Flask, render_template, request, flash, redirect, url_for, Response
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = 'super_secret_key_change_in_production'
+app.secret_key = os.environ.get('SECRET_KEY', 'super_secret_key_change_in_production')
 
 @app.template_filter('datetime_12hr')
 def datetime_12hr_filter(value):
@@ -22,12 +26,29 @@ def datetime_12hr_filter(value):
 CONFIG_PATH = os.path.join(os.path.dirname(__file__), 'config.json')
 
 def load_config():
+    config = {}
     try:
         with open(CONFIG_PATH, 'r', encoding='utf-8') as f:
-            return json.load(f)
+            data = json.load(f)
+            if isinstance(data, dict):
+                config = data
     except Exception as e:
         print(f"Error loading config: {e}")
-        return {}
+        
+    # Override with environment variables (if provided)
+    config['clinic_name'] = os.environ.get('CLINIC_NAME', config.get('clinic_name', 'SmileCare Dental'))
+    config['phone'] = os.environ.get('PHONE', config.get('phone', ''))
+    config['email'] = os.environ.get('EMAIL', config.get('email', ''))
+    config['whatsapp'] = os.environ.get('WHATSAPP', config.get('whatsapp', ''))
+    config['admin_password'] = os.environ.get('ADMIN_PASSWORD', config.get('admin_password', 'admin'))
+    
+    # Nested environment variable overrides
+    if 'payment' not in config:
+        config['payment'] = {}
+    config['payment']['razorpay_key_id'] = os.environ.get('RAZORPAY_KEY_ID', config['payment'].get('razorpay_key_id'))
+    config['payment']['razorpay_key_secret'] = os.environ.get('RAZORPAY_KEY_SECRET', config['payment'].get('razorpay_key_secret'))
+    
+    return config
 
 # Load it globally into app config
 app.config['SITE_CONFIG'] = load_config()
