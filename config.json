@@ -1,0 +1,68 @@
+{
+  "clinic_name": "SmileCare Dental",
+  "tagline": "Bringing perfect smiles closer to you.",
+  "phone": "+919876543210",
+  "email": "contact@smilecaredental.com",
+  "whatsapp": "919876543210",
+  "address": "123 Health Street, Kalyani Nagar, Pune, India",
+  "map_embed": "https://www.google.com/maps?q=Kalyani+Nagar,+Pune&output=embed",
+  "hero_image": "/static/images/hero.jpg",
+  "admin_password": "secureadmin123",
+  "seo": {
+    "title": "SmileCare Dental | Best Dentist in Pune",
+    "description": "Affordable and professional dental care in Pune. Book your appointment today with top specialists."
+  },
+  "doctor": {
+    "name": "Dr. Amit Sharma",
+    "qualification": "BDS, MDS (Orthodontics)",
+    "experience": "15+ Years Experience",
+    "image": "/static/images/doctor.jpg",
+    "about": "Dr. Amit Sharma is a renowned orthodontist in Pune with a passion for helping patients achieve their best smiles. With over 15 years of experience, he leads SmileCare Dental offering state-of-the-art dental treatments."
+  },
+  "services": [
+    {
+      "name": "Teeth Whitening",
+      "description": "Professional teeth whitening services to brighten your smile safely and quickly."
+    },
+    {
+      "name": "Root Canal",
+      "description": "Painless root canal treatments using advanced endodontic technology."
+    },
+    {
+      "name": "Dental Implants",
+      "description": "Permanent replacement for missing teeth offering a natural look and feel."
+    },
+    {
+      "name": "Braces & Aligners",
+      "description": "Correct misaligned teeth with traditional braces or invisible aligners."
+    }
+  ],
+  "testimonials": [
+    {
+      "name": "Neha Joshi",
+      "review": "Excellent clinic! Dr. Amit is very patient and explains the procedure clearly. Highly recommended.",
+      "rating": 5
+    },
+    {
+      "name": "Rahul Verma",
+      "review": "Had a painless root canal here. The staff is polite and the clinic is very hygienic.",
+      "rating": 5
+    },
+    {
+      "name": "Priya Singh",
+      "review": "Got my teeth whitened and the results are amazing! Thank you SmileCare Dental.",
+      "rating": 4
+    }
+  ],
+  "payment": {
+    "enabled": false,
+    "fee": 500,
+    "currency": "INR",
+    "razorpay_key_id": "rzp_test_change_me",
+    "razorpay_key_secret": "change_me_secret"
+  },
+  "social": {
+    "facebook": "https://facebook.com/smilecaredental",
+    "instagram": "https://instagram.com/smilecaredental"
+  }
+}

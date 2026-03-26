@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="text-center mb-16 animate-fade-in-up">
+        <h1 class="text-4xl font-extrabold text-slate-900 font-heading">About <span class="text-brand-600">{{ config.clinic_name }}</span></h1>
+        <p class="mt-4 text-xl text-slate-500">Your trusted partner for a healthier, brighter smile.</p>
+    </div>
+
+    <div class="bg-white rounded-[2rem] shadow-xl overflow-hidden border border-slate-100 flex flex-col md:flex-row animate-fade-in-up" style="animation-delay: 0.2s;">
+        <div class="md:w-5/12 shrink-0">
+            <img class="h-full w-full object-cover" src="{{ config.doctor.image if 'doctor' in config and config.doctor.image else 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80' }}" alt="{{ config.doctor.name }}">
+        </div>
+        <div class="p-10 md:p-14 flex flex-col justify-center">
+            <h2 class="text-sm font-semibold text-brand-600 uppercase tracking-widest mb-1">Lead Specialist</h2>
+            <h3 class="text-3xl font-bold text-slate-900 mb-2 font-heading">{{ config.doctor.name }}</h3>
+            <p class="text-slate-500 font-medium mb-6">{{ config.doctor.qualification }} • {{ config.doctor.experience }}</p>
+            <div class="prose prose-brand text-slate-600">
+                <p>{{ config.doctor.about }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Clinic Gallery Section -->
+    {% if gallery_files %}
+    <div class="mt-20">
+        <div class="text-center mb-10 animate-fade-in-up">
+            <h2 class="text-3xl font-extrabold text-slate-900 font-heading">Clinic <span class="text-brand-600">Tour</span></h2>
+            <p class="mt-4 text-lg text-slate-500">Take a look inside our state-of-the-art facility.</p>
+        </div>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {% for file in gallery_files %}
+            <div class="rounded-2xl overflow-hidden shadow-lg border border-slate-100 hover:shadow-xl transition-shadow h-64 bg-slate-200 animate-fade-in-up" style="animation-delay: {{ loop.index * 0.1 }}s;">
+                {% if file.endswith('.mp4') or file.endswith('.webm') %}
+                <video class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" src="{{ url_for('static', filename='gallery/' + file) }}" controls playsinline></video>
+                {% else %}
+                <img class="w-full h-full object-cover hover:scale-105 transition-transform duration-500 cursor-pointer" src="{{ url_for('static', filename='gallery/' + file) }}" onclick="window.open(this.src, '_blank')">
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}

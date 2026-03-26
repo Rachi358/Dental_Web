@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="bg-slate-50 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16 animate-fade-in-up">
+            <h1 class="text-4xl font-extrabold text-slate-900 font-heading">Our <span class="text-brand-600">Services</span></h1>
+            <p class="mt-4 text-xl text-slate-500">Comprehensive dental solutions under one roof.</p>
+        </div>
+
+        <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {% for service in config.services %}
+            <div class="bg-white rounded-2xl shadow-lg border border-slate-100 p-8 hover:shadow-xl hover:-translate-y-1 transition-all animate-fade-in-up" style="animation-delay: {{ loop.index * 0.1 }}s;">
+                <div class="w-14 h-14 bg-gradient-to-br from-brand-100 to-indigo-50 rounded-2xl flex items-center justify-center mb-6 shadow-inner">
+                    <span class="text-3xl">✨</span>
+                </div>
+                <h3 class="text-2xl font-bold text-slate-900 mb-3 font-heading">{{ service.name }}</h3>
+                <p class="text-slate-500">{{ service.description }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

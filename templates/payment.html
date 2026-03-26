@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="max-w-2xl mx-auto px-4 py-16 text-center">
+    <div class="bg-white rounded-2xl shadow-xl border border-slate-100 p-10 animate-fade-in-up">
+        <div class="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-6">
+            <svg class="w-10 h-10 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+        </div>
+        <h2 class="text-3xl font-extrabold text-slate-900 font-heading mb-4">Secure Your Appointment</h2>
+        <p class="text-slate-500 mb-8">Please complete the payment of <strong>₹{{ config.payment.fee }}</strong> to confirm your booking.</p>
+        
+        <button id="rzp-button1" class="w-full bg-gradient-to-r from-brand-600 to-indigo-600 text-white font-bold py-4 px-6 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all">
+            Pay ₹{{ config.payment.fee }} Now
+        </button>
+        <p class="text-xs text-slate-400 mt-4">Secured by Razorpay • Cancellations refundable up to 24 hours.</p>
+    </div>
+</div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+var options = {
+    "key": "{{ config.payment.razorpay_key_id }}",
+    "amount": "{{ config.payment.fee * 100 }}",
+    "currency": "INR",
+    "name": "{{ config.clinic_name }}",
+    "description": "Consultation Fee",
+    "image": "{{ config.hero_image }}",
+    "order_id": "{{ order_id }}",
+    "handler": function (response){
+        var form = document.createElement("form");
+        form.method = "POST";
+        form.action = "{{ url_for('verify_payment') }}";
+        
+        var field1 = document.createElement("input");
+        field1.type = "hidden";
+        field1.name = "razorpay_payment_id";
+        field1.value = response.razorpay_payment_id;
+        form.appendChild(field1);
+        
+        var field2 = document.createElement("input");
+        field2.type = "hidden";
+        field2.name = "razorpay_order_id";
+        field2.value = response.razorpay_order_id;
+        form.appendChild(field2);
+
+        var field3 = document.createElement("input");
+        field3.type = "hidden";
+        field3.name = "razorpay_signature";
+        field3.value = response.razorpay_signature;
+        form.appendChild(field3);
+
+        document.body.appendChild(form);
+        form.submit();
+    },
+    "prefill": {
+        "name": "{{ name }}",
+        "email": "{{ email }}",
+        "contact": "{{ phone }}"
+    },
+    "theme": {
+        "color": "#2563eb"
+    }
+};
+var rzp1 = new Razorpay(options);
+rzp1.on('payment.failed', function (response){
+        alert("Payment Failed: " + response.error.description);
+});
+document.getElementById('rzp-button1').onclick = function(e){
+    rzp1.open();
+    e.preventDefault();
+}
+
+// Auto-open
+window.onload = function() {
+    rzp1.open();
+}
+</script>
+{% endblock %}

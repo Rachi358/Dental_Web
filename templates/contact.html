@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="text-center mb-16 animate-fade-in-up">
+        <h1 class="text-4xl font-extrabold text-slate-900 font-heading">Get In <span class="text-brand-600">Touch</span></h1>
+        <p class="mt-4 text-xl text-slate-500">Book your appointment today or drop by our clinic.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 bg-white rounded-3xl overflow-hidden shadow-2xl border border-slate-100 animate-fade-in-up" style="animation-delay: 0.2s;">
+        <!-- Form Section -->
+        <div class="p-8 md:p-12 order-2 md:order-1">
+            <h3 class="text-2xl font-bold text-slate-900 mb-6 font-heading">Book an Appointment</h3>
+            <form action="{{ url_for('contact') }}" method="POST" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-medium text-slate-700">Full Name *</label>
+                    <input type="text" name="name" required class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm px-4 py-3 border bg-slate-50 outline-none transition-colors">
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700">Phone *</label>
+                        <input type="tel" name="phone" required class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm px-4 py-3 border bg-slate-50 outline-none transition-colors">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700">Email</label>
+                        <input type="email" name="email" class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm px-4 py-3 border bg-slate-50 outline-none transition-colors">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700">Preferred Date *</label>
+                    <input type="date" name="date" required class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm px-4 py-3 border bg-slate-50 outline-none transition-colors">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700">Message (Optional)</label>
+                    <textarea name="message" rows="4" class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm px-4 py-3 border bg-slate-50 outline-none transition-colors"></textarea>
+                </div>
+                <button type="submit" class="w-full bg-gradient-to-r from-brand-600 to-indigo-600 text-white font-bold py-3 px-4 rounded-xl shadow-lg hover:shadow-xl hover:from-brand-700 hover:to-indigo-700 transform hover:-translate-y-0.5 transition-all outline-none focus:ring-4 focus:ring-brand-500/50">
+                    Confirm Appointment
+                </button>
+            </form>
+        </div>
+
+        <!-- Info & Map Section -->
+        <div class="bg-slate-50 p-8 md:p-12 order-1 md:order-2 flex flex-col justify-between">
+            <div>
+                <h3 class="text-2xl font-bold text-slate-900 mb-6 font-heading">Contact Information</h3>
+                <div class="space-y-6">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 mt-1"><span class="text-2xl">📍</span></div>
+                        <div class="ml-4"><p class="text-slate-600">{{ config.address }}</p></div>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0"><span class="text-2xl">📞</span></div>
+                        <div class="ml-4"><a href="tel:{{ config.phone }}" class="text-brand-600 font-bold hover:underline">{{ config.phone }}</a></div>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0"><span class="text-2xl">✉️</span></div>
+                        <div class="ml-4"><a href="mailto:{{ config.email }}" class="text-slate-600 font-medium hover:text-brand-600">{{ config.email }}</a></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-10 rounded-2xl overflow-hidden shadow-md h-64 relative border border-slate-200">
+                <!-- Dynamic Google Map Embed -->
+                <iframe src="{{ config.map_embed }}" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

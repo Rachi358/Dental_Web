@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- Hero Section -->
+<section class="relative bg-white overflow-hidden pb-10">
+    <div class="max-w-7xl mx-auto">
+        <div class="relative z-10 bg-white sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32 px-4 sm:px-6 lg:px-8 mt-10">
+            <main class="mt-10 mx-auto max-w-7xl sm:mt-12 md:mt-16 lg:mt-20 xl:mt-28 animate-fade-in-up">
+                <div class="sm:text-center lg:text-left">
+                    <h1 class="text-4xl tracking-tight font-extrabold text-slate-900 sm:text-5xl md:text-6xl font-heading">
+                        <span class="block xl:inline">Welcome to</span>
+                        <span class="block text-brand-600">{{ config.clinic_name }}</span>
+                    </h1>
+                    <p class="mt-3 text-base text-slate-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+                        {{ config.tagline }} <br/>
+                        Experience premium dental care with advanced medical technology and a professional team dedicated to your health and smile.
+                    </p>
+                    <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
+                        <div class="rounded-full shadow-lg shadow-brand-500/30">
+                            <a href="{{ url_for('contact') }}" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-full text-white bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-700 hover:to-indigo-700 md:py-4 md:text-lg transition-all transform hover:-translate-y-1">
+                                Book an Appointment
+                            </a>
+                        </div>
+                        <div class="mt-3 sm:mt-0 sm:ml-3">
+                            <a href="{{ url_for('services') }}" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-full text-brand-700 bg-brand-100 hover:bg-brand-200 md:py-4 md:text-lg transition-all transform hover:-translate-y-1">
+                                View Services
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <div class="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 rounded-l-[3rem] overflow-hidden shadow-2xl h-64 sm:h-72 md:h-96 lg:h-full mt-10 lg:mt-0">
+        <!-- Dynamic Hero Image from Config -->
+        <img class="h-full w-full object-cover rounded-l-[3rem] transition-transform duration-700 hover:scale-105" src="{{ config.hero_image if config.hero_image else 'https://images.unsplash.com/photo-1606811841689-23dfddce3e95?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80' }}" alt="Dental Clinic">
+        <div class="absolute inset-0 bg-gradient-to-r from-white to-transparent opacity-80 lg:hidden"></div>
+    </div>
+</section>
+
+<!-- Services Preview -->
+<section class="py-20 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+            <h2 class="text-base text-brand-600 font-semibold tracking-wide uppercase">Treatments</h2>
+            <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-slate-900 sm:text-4xl font-heading">Our Premier Services</p>
+        </div>
+        <div class="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {% for service in config.services[:3] %}
+            <div class="bg-white rounded-2xl shadow-xl shadow-slate-200/50 p-8 hover:-translate-y-2 transition-transform duration-300 border border-slate-100">
+                <div class="w-12 h-12 bg-brand-100 rounded-xl flex items-center justify-center mb-6">
+                    <span class="text-2xl">🦷</span>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 mb-3 font-heading">{{ service.name }}</h3>
+                <p class="text-slate-500">{{ service.description }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="mt-12 text-center">
+            <a href="{{ url_for('services') }}" class="inline-flex items-center text-brand-600 font-semibold hover:text-brand-700 hover:underline">View all treatments <span class="ml-2">&rarr;</span></a>
+        </div>
+    </div>
+</section>
+
+<!-- Realistic Testimonials UI/UX Upgrade -->
+<section class="py-20 bg-white" id="reviews">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-base text-brand-600 font-semibold tracking-wide uppercase">Testimonials</h2>
+            <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-slate-900 sm:text-4xl font-heading">What Our Patients Say</p>
+        </div>
+        <div class="grid gap-8 md:grid-cols-3 mb-16">
+            {% set all_testimonials = config.testimonials + db_reviews %}
+            {% for testimonial in all_testimonials %}
+            <div class="bg-slate-50 rounded-2xl p-8 shadow-sm border border-slate-100 relative hover:shadow-md transition-shadow">
+                <div class="text-brand-500 flex mb-4">
+                    <!-- Dynamic Star Rating -->
+                    {% for i in range(testimonial.rating | int) %}
+                    <svg class="h-5 w-5 fill-current text-yellow-500" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    {% endfor %}
+                    {% for i in range(5 - (testimonial.rating | int)) %}
+                    <svg class="h-5 w-5 fill-current text-slate-300" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    {% endfor %}
+                </div>
+                <p class="text-slate-600 italic mb-6">"{{ testimonial.review }}"</p>
+                <div class="font-bold text-slate-900">- {{ testimonial.name }}</div>
+            </div>
+            {% endfor %}
+            {% if not all_testimonials %}
+            <p class="text-slate-500 col-span-3 text-center">No reviews yet. Be the first to share your experience!</p>
+            {% endif %}
+        </div>
+        
+        <!-- Leave a Review Form -->
+        <div class="max-w-2xl mx-auto bg-slate-50 rounded-2xl p-8 shadow-sm border border-slate-100 mt-12">
+            <h3 class="text-2xl font-bold text-slate-900 mb-6 font-heading text-center">Share Your Experience</h3>
+            <form action="{{ url_for('add_review') }}" method="POST" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-slate-700">Full Name *</label>
+                    <input type="text" name="name" required class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm px-4 py-3 border bg-white outline-none transition-colors">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700">Rating *</label>
+                    <select name="rating" class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm px-4 py-3 border bg-white outline-none cursor-pointer">
+                        <option value="5">⭐⭐⭐⭐⭐ - Excellent</option>
+                        <option value="4">⭐⭐⭐⭐ - Good</option>
+                        <option value="3">⭐⭐⭐ - Average</option>
+                        <option value="2">⭐⭐ - Fair</option>
+                        <option value="1">⭐ - Poor</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700">Your Review *</label>
+                    <textarea name="review" rows="4" required class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm px-4 py-3 border bg-white outline-none transition-colors"></textarea>
+                </div>
+                <button type="submit" class="w-full bg-gradient-to-r from-brand-600 to-indigo-600 text-white font-bold py-3 px-4 rounded-xl shadow-lg hover:shadow-xl hover:from-brand-700 hover:to-indigo-700 transform hover:-translate-y-0.5 transition-all outline-none focus:ring-4 focus:ring-brand-500/50">
+                    Submit Review
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}
